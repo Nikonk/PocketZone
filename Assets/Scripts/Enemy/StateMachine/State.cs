@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ namespace PocketZone.Enemy.StateMachine
     {
         [SerializeField] private List<Transition> _transitions;
 
-        protected Player.Player Target { get; set; }
+        protected Player.Player Target { get; private set; }
 
         public void Enter(Player.Player target)
         {

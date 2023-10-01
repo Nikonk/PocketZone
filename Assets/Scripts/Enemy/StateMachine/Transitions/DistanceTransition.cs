@@ -1,13 +1,13 @@
-using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-namespace PocketZone.Enemy.StateMachine.Transitions
+namespace PocketZone.Enemy.StateMachine
 {
     public class DistanceTransition : Transition
     {
         [SerializeField] private float _transitionRange;
         [SerializeField] private float _rangeSpread;
+
+        public float MaxTransitionRange => _transitionRange + _rangeSpread;
 
         private void Start()
         {
@@ -16,6 +16,9 @@ namespace PocketZone.Enemy.StateMachine.Transitions
 
         private void Update()
         {
+            if (Target == null)
+                return;
+
             if (Vector2.Distance(transform.position, Target.transform.position) < _transitionRange)
                 NeedTransit = true;
         }

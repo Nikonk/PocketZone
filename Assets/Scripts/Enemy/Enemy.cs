@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace PocketZone.Enemy
 {
@@ -7,9 +8,13 @@ namespace PocketZone.Enemy
     {
         [SerializeField] private int _health;
 
-        [SerializeField] private Player.Player _target;
+        [Inject]
+        private void Constructor(Player.Player player)
+        {
+            Target = player;
+        }
 
-        public Player.Player Target => _target;
+        public Player.Player Target { get; private set; }
 
         public void TakeDamage(int damage)
         {

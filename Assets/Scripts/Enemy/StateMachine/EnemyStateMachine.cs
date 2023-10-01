@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace PocketZone.Enemy.StateMachine
@@ -11,16 +10,15 @@ namespace PocketZone.Enemy.StateMachine
         private Player.Player _target;
         private State _currentState;
 
-        public State Current => _currentState;
-
         private void Start()
         {
             _target = GetComponent<Enemy>().Target;
+            ResetStateMachine(_initialState);
         }
 
         private void Update()
         {
-            if (_currentState is null)
+            if (_currentState == null)
                 return;
 
             State nextState = _currentState.GetNext();
@@ -35,9 +33,7 @@ namespace PocketZone.Enemy.StateMachine
                 _currentState.Exit();
 
             _currentState = state;
-
-            if (_currentState != null)
-                _currentState.Enter(_target);
+            _currentState.Enter(_target);
         }
 
         private void ResetStateMachine(State initialState)
