@@ -8,6 +8,12 @@ namespace PocketZone.Player
         [SerializeField] private float _movementSpeed;
         [SerializeField] private int _maxHealth;
 
+        [SerializeField] private Transform _weaponParent;
+
+        [SerializeField] private ShootCircle _shootCircle;
+
+        [SerializeField] private Weapon _startWeapon;
+
         private PhoneInput _input;
 
         private PlayerMovement _playerMovement;
@@ -15,11 +21,17 @@ namespace PocketZone.Player
 
         private int _currentHealth;
 
+        private PlayerWeaponBehavior _playerWeaponBehavior;
+        private bool _isShooting;
+
         private void Awake()
         {
             _input = new PhoneInput();
 
             _playerMovement = new PlayerMovement(GetComponent<Rigidbody2D>());
+
+            Weapon weapon = Instantiate(_startWeapon, _weaponParent);
+            _playerWeaponBehavior = new PlayerWeaponBehavior(weapon, _shootCircle, transform);
 
             _currentHealth = _maxHealth;
         }
@@ -27,6 +39,9 @@ namespace PocketZone.Player
         private void OnEnable()
         {
             _input.Enable();
+
+            _input.Player.Shoot.performed += _ => OnShootPerformed();
+            _input.Player.Shoot.canceled += _ => OnShootCanceled();
         }
 
         private void OnDisable()
@@ -37,6 +52,11 @@ namespace PocketZone.Player
         private void Update()
         {
             _moveDirection = _input.Player.Move.ReadValue<Vector2>();
+
+            _playerWeaponBehavior.SearchEnemy();
+
+            if (_isShooting)
+                _playerWeaponBehavior.Shoot();
         }
 
         private void FixedUpdate()
@@ -51,5 +71,8 @@ namespace PocketZone.Player
             if (_currentHealth <= 0)
                 Destroy(gameObject);
         }
+
+        private void OnShootPerformed() => _isShooting = true;
+        private void OnShootCanceled() => _isShooting = false;
     }
 }

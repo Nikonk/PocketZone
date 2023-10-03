@@ -5,12 +5,26 @@ namespace PocketZone.Player
     [RequireComponent(typeof(LineRenderer))]
     public class ShootCircle : MonoBehaviour
     {
-        [SerializeField] private float _radius = 1.0f;
-
         private const int _numSegments = 35;
 
         private LineRenderer _lineRenderer;
+        private float _radius;
         private float _lastRadius;
+
+        public float Radius
+        {
+            get => _radius;
+            set
+            {
+                if (value < 0)
+                {
+                    Debug.LogError("Shoot radius can't be negative");
+                    return;
+                }
+
+                _radius = value;
+            }
+        }
 
         private void Start()
         {

@@ -1,4 +1,6 @@
 using PocketZone.Factory;
+using PocketZone.Inventory.Item;
+using PocketZone.LootGeneration;
 using UnityEngine;
 using Zenject;
 
@@ -10,9 +12,12 @@ namespace PocketZone.Installer
         [SerializeField] private Transform _startSpawnPosition;
         [SerializeField] private Transform _endSpawnPosition;
 
+        [SerializeField] private RandomItem[] _lootsAfterDeath;
+
         public override void InstallBindings()
         {
             BindInstaller();
+            BindLootGenerator();
             BindEnemyFactory();
         }
 
@@ -28,6 +33,18 @@ namespace PocketZone.Installer
             Container
                 .BindInterfacesTo<EnemyInstaller>()
                 .FromInstance(this)
+                .AsSingle();
+        }
+
+        private void BindLootGenerator()
+        {
+            Container
+                .Bind<RandomItem[]>()
+                .FromInstance(_lootsAfterDeath)
+                .AsSingle();
+
+            Container
+                .BindInterfacesTo<RandomLootGenerator>()
                 .AsSingle();
         }
 

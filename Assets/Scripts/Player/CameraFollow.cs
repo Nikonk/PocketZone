@@ -1,5 +1,4 @@
 using UnityEngine;
-using Zenject;
 
 namespace PocketZone.Player
 {
@@ -13,12 +12,17 @@ namespace PocketZone.Player
         private void Start()
         {
             _transform = transform;
-            _mainCameraTransform = Camera.main.transform;
+
+            if (Camera.main != null)
+                _mainCameraTransform = Camera.main.transform;
+            else
+                Debug.LogError("Main camera is empty");
+
         }
 
         private void FixedUpdate()
         {
-            Vector3 desiredPosition = transform.position;
+            Vector3 desiredPosition = _transform.position;
             var smoothedPosition =
                 Vector3.Lerp(_mainCameraTransform.position, desiredPosition, smoothSpeed * Time.fixedDeltaTime);
             _mainCameraTransform.position = smoothedPosition;

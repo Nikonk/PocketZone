@@ -40,12 +40,12 @@ namespace PocketZone.Input
                 },
                 {
                     ""name"": ""Shoot"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""d1d12d48-bfd4-4951-b3e0-3c9ea60c4691"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -63,7 +63,7 @@ namespace PocketZone.Input
                 {
                     ""name"": """",
                     ""id"": ""f958b4c2-87b2-41c9-8d0c-501b02c7f6ed"",
-                    ""path"": ""<Touchscreen>/Press"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

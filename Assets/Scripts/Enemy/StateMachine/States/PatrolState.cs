@@ -6,6 +6,7 @@ namespace PocketZone.Enemy.StateMachine
     public class PatrolState : State
     {
         private const float _moveLimiter = 0.7f;
+        private const float _moveEpsilon = 0.7f;
 
         [SerializeField] private float _speed;
         [SerializeField] private float _distance;
@@ -25,7 +26,7 @@ namespace PocketZone.Enemy.StateMachine
 
         private void Update()
         {
-            if ((Vector2)_transform.position == _movePoint)
+            if (Vector2.Distance(_transform.position, _movePoint) < _moveEpsilon)
                 NextMovePoint();
 
             Move();
