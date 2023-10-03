@@ -19,7 +19,8 @@ namespace PocketZone.LootGeneration
             foreach (RandomItem randomItem in _randomItems)
             {
                 if (Random.Range(0f, 1f) < randomItem.DropChance)
-                    Object.Instantiate(randomItem, at, Quaternion.identity);
+                    for (int i = 0; i < randomItem.DropCount; i++)
+                        Object.Instantiate(randomItem, at, Quaternion.identity);
             }
         }
     }

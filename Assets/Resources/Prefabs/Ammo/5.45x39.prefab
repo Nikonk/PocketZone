@@ -124,5 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e88fd3398e4b64b5d5364035f86e0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Ammo 5.45x39
+  _itemData: {fileID: 11400000, guid: f7613304a36c8bc489918b88475da0ac, type: 2}
   _dropChance: 1
+  _dropCount: 30

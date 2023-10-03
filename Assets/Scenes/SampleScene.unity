@@ -957,6 +957,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerPrefab: {fileID: 1475161946882567213, guid: 87b994aefc683b84099ad13031c31ee8, type: 3}
   _playerInitialPosition: {fileID: 39919389}
+  _inventorySize: 18
 --- !u!4 &955920587
 Transform:
   m_ObjectHideFlags: 0

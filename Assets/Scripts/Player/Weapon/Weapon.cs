@@ -25,13 +25,10 @@ namespace PocketZone.Player
         private void Update()
         {
             _timeSinceLastShot += Time.deltaTime;
-            Debug.Log(_currentAmmo);
         }
 
         public void Shoot(Enemy.Enemy enemy = null)
         {
-            Debug.Log($"Shoot: {_currentAmmo}");
-
             if (_currentAmmo > 0 && CanShoot())
             {
                 _currentAmmo--;

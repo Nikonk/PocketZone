@@ -1,3 +1,4 @@
+using PocketZone.Inventory;
 using UnityEngine;
 using Zenject;
 
@@ -8,9 +9,22 @@ namespace PocketZone.Installer
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private Transform _playerInitialPosition;
 
+        [SerializeField] private int _inventorySize;
+
         public override void InstallBindings()
         {
+            BindInventory();
             BindPlayer();
+        }
+
+        private void BindInventory()
+        {
+            var inventorySystem = new InventorySystem(_inventorySize);
+
+            Container
+                .Bind<InventorySystem>()
+                .FromInstance(inventorySystem)
+                .AsSingle();
         }
 
         private void BindPlayer()
