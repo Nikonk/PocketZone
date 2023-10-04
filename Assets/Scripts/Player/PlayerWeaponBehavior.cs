@@ -14,11 +14,10 @@ namespace PocketZone.Player
         public PlayerWeaponBehavior(Weapon initialWeapon, ShootCircle playerShootCircle, Transform playerTransform)
         {
             _weapon = initialWeapon;
+            _playerTransform = playerTransform;
 
             _playerShootCircle = playerShootCircle;
             ChangeShootingDistance();
-
-            _playerTransform = playerTransform;
         }
 
         public void Shoot()
@@ -41,7 +40,7 @@ namespace PocketZone.Player
         {
             if (_enemy != null)
             {
-                if (Vector2.Distance(_playerTransform.position, _enemy.transform.position) > _playerShootCircle.Radius)
+                if (Vector2.Distance(_playerTransform.position, _enemy.transform.position) > _weapon.WeaponData.Range)
                 {
                     _enemy.Deselect();
                     _enemy = null;
@@ -52,7 +51,7 @@ namespace PocketZone.Player
                 }
             }
 
-            if (Physics2D.OverlapCircle(_playerTransform.position, _playerShootCircle.Radius).TryGetComponent(out _enemy))
+            if (Physics2D.OverlapCircle(_playerTransform.position, _weapon.WeaponData.Range).TryGetComponent(out _enemy))
                 _enemy.Select();
         }
 
@@ -60,7 +59,7 @@ namespace PocketZone.Player
         {
             Collider2D[] enemiesCollider = new Collider2D[2];
 
-            if (Physics2D.OverlapCircleNonAlloc(_playerTransform.position, _playerShootCircle.Radius,
+            if (Physics2D.OverlapCircleNonAlloc(_playerTransform.position, _weapon.WeaponData.Range,
                     enemiesCollider) <= 1)
                 return;
 
@@ -82,15 +81,7 @@ namespace PocketZone.Player
         {
             _playerShootCircle.Radius = _weapon.WeaponData.Range;
 
-            if (_enemy == null)
-                return;
-
-            if (Vector2.Distance(_playerTransform.position, _enemy.transform.position) > _playerShootCircle.Radius)
-            {
-                _enemy.Deselect();
-                _enemy = null;
-                SearchEnemy();
-            }
+            SearchEnemy();
         }
     }
 }

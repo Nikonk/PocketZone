@@ -5,7 +5,7 @@ namespace PocketZone.Inventory
 {
     public class InventoryHolder : MonoBehaviour
     {
-        protected InventorySystem InventorySystem;
+        public InventorySystem InventorySystem { get; private set; }
 
         [Inject]
         private void Constructor(InventorySystem inventorySystem)

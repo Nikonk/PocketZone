@@ -10,6 +10,7 @@ namespace PocketZone.Inventory
     {
         [SerializeField] private List<InventorySlot> _inventorySlots;
 
+        public IReadOnlyList<InventorySlot> InventorySlots => _inventorySlots;
         public int InventorySize => _inventorySlots.Count;
 
         public event Action<InventorySlot> OnInventorySlotChanged;

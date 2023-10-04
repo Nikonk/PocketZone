@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace PocketZone.Player
@@ -27,7 +28,7 @@ namespace PocketZone.Player
             _timeSinceLastShot += Time.deltaTime;
         }
 
-        public void Shoot(Enemy.Enemy enemy = null)
+        public void Shoot([CanBeNull] Enemy.Enemy enemy)
         {
             if (_currentAmmo > 0 && CanShoot())
             {

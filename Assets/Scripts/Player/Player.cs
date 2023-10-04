@@ -1,5 +1,7 @@
 using PocketZone.Input;
+using PocketZone.UI.Inventory;
 using UnityEngine;
+using Zenject;
 
 namespace PocketZone.Player
 {
@@ -24,6 +26,14 @@ namespace PocketZone.Player
         private PlayerWeaponBehavior _playerWeaponBehavior;
         private bool _isShooting;
 
+        private PlayerInventoryDisplay _inventoryDisplay;
+
+        public Player Initialize(PlayerInventoryDisplay inventoryDisplay)
+        {
+            _inventoryDisplay = inventoryDisplay;
+            return this;
+        }
+
         private void Awake()
         {
             _input = new PhoneInput();
@@ -42,6 +52,8 @@ namespace PocketZone.Player
 
             _input.Player.Shoot.performed += _ => OnShootPerformed();
             _input.Player.Shoot.canceled += _ => OnShootCanceled();
+
+            _input.Player.OpenCloseInventory.performed += _ => OnOpenInventory();
         }
 
         private void OnDisable()
@@ -74,5 +86,7 @@ namespace PocketZone.Player
 
         private void OnShootPerformed() => _isShooting = true;
         private void OnShootCanceled() => _isShooting = false;
+
+        private void OnOpenInventory() => _inventoryDisplay.gameObject.SetActive(!_inventoryDisplay.isActiveAndEnabled);
     }
 }

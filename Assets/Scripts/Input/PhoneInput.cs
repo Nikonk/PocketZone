@@ -46,6 +46,15 @@ namespace PocketZone.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""OpenCloseInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""34051c93-f9d5-4a50-a381-948e7822720d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -70,6 +79,17 @@ namespace PocketZone.Input
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""feef1a56-3599-4b4e-91c3-3bec48eee897"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenCloseInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -80,6 +100,7 @@ namespace PocketZone.Input
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
+            m_Player_OpenCloseInventory = m_Player.FindAction("OpenCloseInventory", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -143,12 +164,14 @@ namespace PocketZone.Input
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Shoot;
+        private readonly InputAction m_Player_OpenCloseInventory;
         public struct PlayerActions
         {
             private @PhoneInput m_Wrapper;
             public PlayerActions(@PhoneInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
+            public InputAction @OpenCloseInventory => m_Wrapper.m_Player_OpenCloseInventory;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -164,6 +187,9 @@ namespace PocketZone.Input
                 @Shoot.started += instance.OnShoot;
                 @Shoot.performed += instance.OnShoot;
                 @Shoot.canceled += instance.OnShoot;
+                @OpenCloseInventory.started += instance.OnOpenCloseInventory;
+                @OpenCloseInventory.performed += instance.OnOpenCloseInventory;
+                @OpenCloseInventory.canceled += instance.OnOpenCloseInventory;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -174,6 +200,9 @@ namespace PocketZone.Input
                 @Shoot.started -= instance.OnShoot;
                 @Shoot.performed -= instance.OnShoot;
                 @Shoot.canceled -= instance.OnShoot;
+                @OpenCloseInventory.started -= instance.OnOpenCloseInventory;
+                @OpenCloseInventory.performed -= instance.OnOpenCloseInventory;
+                @OpenCloseInventory.canceled -= instance.OnOpenCloseInventory;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -195,6 +224,7 @@ namespace PocketZone.Input
         {
             void OnMove(InputAction.CallbackContext context);
             void OnShoot(InputAction.CallbackContext context);
+            void OnOpenCloseInventory(InputAction.CallbackContext context);
         }
     }
 }
