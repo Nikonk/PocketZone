@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa204cbe3934b5a4aa720ec7261248da, type: 3}
   m_Name: AK-74
   m_EditorClassIdentifier: 
-  _damage: 2
+  _damage: 3
   _range: 5
+  _ammoType: 0
   _clipSize: 30
-  _fireRate: 150
+  _fireRate: 320
   _reloadTime: 0.8

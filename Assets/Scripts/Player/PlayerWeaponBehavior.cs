@@ -1,3 +1,4 @@
+using PocketZone.Inventory;
 using UnityEngine;
 
 namespace PocketZone.Player
@@ -20,14 +21,17 @@ namespace PocketZone.Player
             ChangeShootingDistance();
         }
 
+        public ItemType WeaponAmmoType => _weapon.WeaponData.AmmoType;
+        public int ClipSize => _weapon.WeaponData.ClipSize;
+
         public void Shoot()
         {
             _weapon.Shoot(_enemy);
         }
 
-        public void Reload()
+        public void Reload(int reloadingAmmo)
         {
-            _weapon.Reload().Forget();
+            _weapon.Reload(reloadingAmmo).Forget();
         }
 
         public void ChangeWeapon(Weapon weapon)
@@ -38,6 +42,8 @@ namespace PocketZone.Player
 
         public void SearchEnemy()
         {
+            const int enemyLayerMask = 1 << 7;
+
             if (_enemy != null)
             {
                 if (Vector2.Distance(_playerTransform.position, _enemy.transform.position) > _weapon.WeaponData.Range)
@@ -51,8 +57,14 @@ namespace PocketZone.Player
                 }
             }
 
-            if (Physics2D.OverlapCircle(_playerTransform.position, _weapon.WeaponData.Range).TryGetComponent(out _enemy))
+            Collider2D enemyCollider =
+                Physics2D.OverlapCircle(_playerTransform.position, _weapon.WeaponData.Range, enemyLayerMask);
+
+            if (enemyCollider != null)
+            {
+                enemyCollider.TryGetComponent(out _enemy);
                 _enemy.Select();
+            }
         }
 
         public void ChangeEnemy()

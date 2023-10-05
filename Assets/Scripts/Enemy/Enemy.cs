@@ -1,30 +1,40 @@
 using PocketZone.LootGeneration;
+using PocketZone.Unit;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace PocketZone.Enemy
 {
     public class Enemy : MonoBehaviour
     {
-        [SerializeField] private int _health;
+        [SerializeField] private int _maxHealth;
         [SerializeField] private GameObject _selectionMarker;
 
+        [FormerlySerializedAs("_heathBar")] [SerializeField] private FloatingHealthBar healthBar;
+
         private ILootGenerator _lootGenerator;
+
+        private int _currentHealth;
 
         [Inject]
         private void Constructor(Player.Player player, ILootGenerator lootGenerator)
         {
             Target = player;
             _lootGenerator = lootGenerator;
+
+            _currentHealth = _maxHealth;
+            healthBar.UpdateHealthBar(_currentHealth, _maxHealth);
         }
 
         public Player.Player Target { get; private set; }
 
         public void TakeDamage(int damage)
         {
-            _health -= damage;
+            _currentHealth -= damage;
+            healthBar.UpdateHealthBar(_currentHealth, _maxHealth);
 
-            if (_health <= 0)
+            if (_currentHealth <= 0)
             {
                 GenerateLoot();
                 Destroy(gameObject);

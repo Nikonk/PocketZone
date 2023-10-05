@@ -1,7 +1,8 @@
 using PocketZone.Input;
+using PocketZone.Inventory;
 using PocketZone.UI.Inventory;
+using PocketZone.Unit;
 using UnityEngine;
-using Zenject;
 
 namespace PocketZone.Player
 {
@@ -11,10 +12,12 @@ namespace PocketZone.Player
         [SerializeField] private int _maxHealth;
 
         [SerializeField] private Transform _weaponParent;
-
         [SerializeField] private ShootCircle _shootCircle;
-
         [SerializeField] private Weapon _startWeapon;
+
+        [SerializeField] private InventoryHolder _inventory;
+
+        [SerializeField] private FloatingHealthBar _healthBar;
 
         private PhoneInput _input;
 
@@ -44,6 +47,7 @@ namespace PocketZone.Player
             _playerWeaponBehavior = new PlayerWeaponBehavior(weapon, _shootCircle, transform);
 
             _currentHealth = _maxHealth;
+            _healthBar.UpdateHealthBar(_currentHealth, _maxHealth);
         }
 
         private void OnEnable()
@@ -52,6 +56,8 @@ namespace PocketZone.Player
 
             _input.Player.Shoot.performed += _ => OnShootPerformed();
             _input.Player.Shoot.canceled += _ => OnShootCanceled();
+
+            _input.Player.Reload.performed += _ => OnReload();
 
             _input.Player.OpenCloseInventory.performed += _ => OnOpenInventory();
         }
@@ -79,6 +85,7 @@ namespace PocketZone.Player
         public void ApplyDamage(int damage)
         {
             _currentHealth -= damage;
+            _healthBar.UpdateHealthBar(_currentHealth, _maxHealth);
 
             if (_currentHealth <= 0)
                 Destroy(gameObject);
@@ -86,6 +93,8 @@ namespace PocketZone.Player
 
         private void OnShootPerformed() => _isShooting = true;
         private void OnShootCanceled() => _isShooting = false;
+
+        private void OnReload() => _playerWeaponBehavior.Reload(_inventory.InventorySystem.GetAmmo(_playerWeaponBehavior.WeaponAmmoType, _playerWeaponBehavior.ClipSize));
 
         private void OnOpenInventory() => _inventoryDisplay.gameObject.SetActive(!_inventoryDisplay.isActiveAndEnabled);
     }

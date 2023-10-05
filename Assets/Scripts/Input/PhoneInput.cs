@@ -48,6 +48,15 @@ namespace PocketZone.Input
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""0500d647-926f-4f9f-969a-cc75f03ef563"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""OpenCloseInventory"",
                     ""type"": ""Button"",
                     ""id"": ""34051c93-f9d5-4a50-a381-948e7822720d"",
@@ -90,6 +99,17 @@ namespace PocketZone.Input
                     ""action"": ""OpenCloseInventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""208c118d-0966-4bde-8232-3cd057cb3a1c"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -100,6 +120,7 @@ namespace PocketZone.Input
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
+            m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
             m_Player_OpenCloseInventory = m_Player.FindAction("OpenCloseInventory", throwIfNotFound: true);
         }
 
@@ -164,6 +185,7 @@ namespace PocketZone.Input
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Shoot;
+        private readonly InputAction m_Player_Reload;
         private readonly InputAction m_Player_OpenCloseInventory;
         public struct PlayerActions
         {
@@ -171,6 +193,7 @@ namespace PocketZone.Input
             public PlayerActions(@PhoneInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
+            public InputAction @Reload => m_Wrapper.m_Player_Reload;
             public InputAction @OpenCloseInventory => m_Wrapper.m_Player_OpenCloseInventory;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
@@ -187,6 +210,9 @@ namespace PocketZone.Input
                 @Shoot.started += instance.OnShoot;
                 @Shoot.performed += instance.OnShoot;
                 @Shoot.canceled += instance.OnShoot;
+                @Reload.started += instance.OnReload;
+                @Reload.performed += instance.OnReload;
+                @Reload.canceled += instance.OnReload;
                 @OpenCloseInventory.started += instance.OnOpenCloseInventory;
                 @OpenCloseInventory.performed += instance.OnOpenCloseInventory;
                 @OpenCloseInventory.canceled += instance.OnOpenCloseInventory;
@@ -200,6 +226,9 @@ namespace PocketZone.Input
                 @Shoot.started -= instance.OnShoot;
                 @Shoot.performed -= instance.OnShoot;
                 @Shoot.canceled -= instance.OnShoot;
+                @Reload.started -= instance.OnReload;
+                @Reload.performed -= instance.OnReload;
+                @Reload.canceled -= instance.OnReload;
                 @OpenCloseInventory.started -= instance.OnOpenCloseInventory;
                 @OpenCloseInventory.performed -= instance.OnOpenCloseInventory;
                 @OpenCloseInventory.canceled -= instance.OnOpenCloseInventory;
@@ -224,6 +253,7 @@ namespace PocketZone.Input
         {
             void OnMove(InputAction.CallbackContext context);
             void OnShoot(InputAction.CallbackContext context);
+            void OnReload(InputAction.CallbackContext context);
             void OnOpenCloseInventory(InputAction.CallbackContext context);
         }
     }

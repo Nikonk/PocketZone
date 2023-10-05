@@ -1,4 +1,5 @@
-using UnityEngine;
+using PocketZone.Inventory;
+using UnityEngine; 
 
 namespace PocketZone.Player
 {
@@ -10,6 +11,7 @@ namespace PocketZone.Player
         [SerializeField] private float _range;
 
         [Header("Reloading")]
+        [SerializeField] private ItemType _ammoType;
         [SerializeField] private int _clipSize;
         [SerializeField] private float _fireRate;
         [SerializeField] private float _reloadTime;
@@ -17,6 +19,7 @@ namespace PocketZone.Player
         public int Damage => _damage;
         public float Range => _range;
 
+        public ItemType AmmoType => _ammoType;
         public int ClipSize => _clipSize;
         public float FireRate => _fireRate;
         public float ReloadTime => _reloadTime;

@@ -7,8 +7,10 @@ namespace PocketZone.Inventory
     {
         [SerializeField] private Sprite _icon;
         [SerializeField] private int _maxStack;
+        [SerializeField] private ItemType _itemType;
 
         public Sprite Icon => _icon;
         public int MaxStack => _maxStack;
+        public ItemType ItemType => _itemType;
     }
 }

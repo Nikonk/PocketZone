@@ -33,13 +33,14 @@ namespace PocketZone.Player
             if (_currentAmmo > 0 && CanShoot())
             {
                 _currentAmmo--;
+                _timeSinceLastShot = 0;
 
                 if (enemy != null)
                     enemy.TakeDamage(_weaponData.Damage);
             }
         }
 
-        public async UniTaskVoid Reload()
+        public async UniTaskVoid Reload(int reloadingAmmo)
         {
             if (_isReloading)
                 return;
@@ -48,7 +49,7 @@ namespace PocketZone.Player
 
             await UniTask.WaitForSeconds(_weaponData.ReloadTime);
 
-            _currentAmmo = _weaponData.ClipSize;
+            _currentAmmo = reloadingAmmo;
             _isReloading = false;
         }
 

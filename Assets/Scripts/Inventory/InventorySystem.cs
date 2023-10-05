@@ -62,5 +62,26 @@ namespace PocketZone.Inventory
 
             return freeSlot != null;
         }
+
+        public int GetAmmo(ItemType ammoType, int needCount)
+        {
+            int count = 0;
+            List<InventorySlot> inventorySlots = _inventorySlots
+                .Where(inventorySlot => inventorySlot.ItemData != null && inventorySlot.ItemData.ItemType == ammoType).ToList();
+
+            foreach (InventorySlot inventorySlot in inventorySlots)
+                if (inventorySlot.StackSize <= needCount)
+                {
+                    count += inventorySlot.StackSize;
+                    inventorySlot.ClearSlot();
+                }
+                else
+                {
+                    count = needCount;
+                    break;
+                }
+
+            return count;
+        }
     }
  }
