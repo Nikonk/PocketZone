@@ -34,6 +34,8 @@ namespace PocketZone.Player
         public Player Initialize(PlayerInventoryDisplay inventoryDisplay)
         {
             _inventoryDisplay = inventoryDisplay;
+            _inventoryDisplay
+                .Initialize(_inventory);
             return this;
         }
 

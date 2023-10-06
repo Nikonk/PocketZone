@@ -389,7 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e8e2e34862d4d0ebb63133cbf6cb4ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSpeed: 15
+  _movementSpeed: 3
   _maxHealth: 25
   _weaponParent: {fileID: 1475161947689334515}
   _shootCircle: {fileID: 7755172969632902295}

@@ -74,9 +74,14 @@ namespace PocketZone.Inventory
                 {
                     count += inventorySlot.StackSize;
                     inventorySlot.ClearSlot();
+                    OnInventorySlotChanged?.Invoke(inventorySlot);
                 }
                 else
                 {
+                    int remainingCount = needCount - count;
+                    inventorySlot.RemoveFromStack(remainingCount);
+                    OnInventorySlotChanged?.Invoke(inventorySlot);
+
                     count = needCount;
                     break;
                 }

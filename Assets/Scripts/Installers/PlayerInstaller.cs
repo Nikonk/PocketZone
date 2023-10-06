@@ -17,7 +17,6 @@ namespace PocketZone.Installer
         {
             BindInventorySize();
             BindPlayer();
-            BindPlayerInventoryToUI();
         }
 
         private void BindInventorySize()
@@ -39,16 +38,6 @@ namespace PocketZone.Installer
             Container
                 .Bind<Player.Player>()
                 .FromInstance(player)
-                .AsSingle();
-        }
-
-        private void BindPlayerInventoryToUI()
-        {
-            var player = Container.Resolve<Player.Player>();
-
-            Container
-                .Bind<InventoryHolder>()
-                .FromInstance(player.GetComponent<InventoryHolder>())
                 .AsSingle();
         }
     }

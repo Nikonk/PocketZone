@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using PocketZone.Inventory;
 using UnityEngine;
-using Zenject;
 
 namespace PocketZone.UI.Inventory
 {
@@ -12,8 +11,7 @@ namespace PocketZone.UI.Inventory
         private InventoryHolder _playerInventory;
         private List<InventorySlotUI> _slots;
 
-        [Inject]
-        private void Constructor(InventoryHolder playerInventory)
+        public void Initialize(InventoryHolder playerInventory)
         {
             _playerInventory = playerInventory;
             InventorySystem = _playerInventory.InventorySystem;
@@ -23,7 +21,7 @@ namespace PocketZone.UI.Inventory
 
             for (int i = 0; i < InventorySystem.InventorySize; i++)
             {
-                InventorySlotUI inventorySlotUI = Instantiate(_inventorySlotUIPrefab, this.transform);
+                InventorySlotUI inventorySlotUI = Instantiate(_inventorySlotUIPrefab, transform).Initialize();
                 _slots.Add(inventorySlotUI);
             }
 

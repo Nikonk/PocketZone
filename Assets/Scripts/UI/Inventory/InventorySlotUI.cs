@@ -13,13 +13,13 @@ namespace PocketZone.UI.Inventory
 
         [SerializeField] private Button _deleteButton;
 
-        public InventoryDisplay ParentDisplay { get; private set; }
+        private InventoryDisplay ParentDisplay { get; set; }
 
         private InventorySlot _assignedInventorySlot;
 
         private Button _button;
 
-        private void Awake()
+        public InventorySlotUI Initialize()
         {
             ClearSlot();
 
@@ -29,6 +29,8 @@ namespace PocketZone.UI.Inventory
             ParentDisplay = GetComponentInParent<InventoryDisplay>();
 
             _deleteButton.onClick.AddListener(ClearSlot);
+
+            return this;
         }
 
         public void Init(InventorySlot assignedSlot)
@@ -52,13 +54,7 @@ namespace PocketZone.UI.Inventory
             }
         }
 
-        public void UpdateSlot()
-        {
-            if (_assignedInventorySlot != null)
-                UpdateSlot(_assignedInventorySlot);
-        }
-
-        public void ClearSlot()
+        private void ClearSlot()
         {
             _assignedInventorySlot?.ClearSlot();
             _itemIcon.sprite = null;
@@ -68,7 +64,7 @@ namespace PocketZone.UI.Inventory
             _deleteButton.gameObject.SetActive(false);
         }
 
-        public void OnSlotClick()
+        private void OnSlotClick()
         {
             ParentDisplay.SlotClicked(this);
 
